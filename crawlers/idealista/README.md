@@ -1,8 +1,8 @@
-# **Steam**
+# **Idealista**
 
 ## O que é Steam?
 
-Steam é um software de gestão de direitos digitais criado pela Valve Corporation ou Valve L.L.C., de plataformas digitais como jogos e aplicativos de programação e fornece serviços facilitados como atualização automática de jogos, e preços acessíveis aos usuários.
+Tem como missão é fornecer informação imobiliária estruturada e organizada de forma homogénea e em tempo real, ao alcance de qualquer profissional do setor. Dispondo de um conjunto de ferramentas tecnológicas e analíticas para processar, padronizar e estruturar fontes de dados úteis e convertê-las em informação facilmente acessível.
 
 ## **Dados Coletados**
 
