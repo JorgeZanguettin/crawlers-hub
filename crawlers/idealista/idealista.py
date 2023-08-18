@@ -11,14 +11,14 @@ URL_CRAWL = "https://www.idealista.pt/arrendar-casas/lisboa/"
 class CrawlerIdealista:
     def __init__(self):
         page = 1
-        self.send_log_system('DEGUB', 'Start Crawler')
+        self.send_log_system('DEBUG', 'Start Crawler')
 
         while True:
             page = self.parse_place_list(page)
             if not page:
                 break
 
-        self.send_log_system('DEGUB', 'Finish Crawler')
+        self.send_log_system('DEBUG', 'Finish Crawler')
 
 
     def parse_place_list(self, page):
@@ -43,7 +43,7 @@ class CrawlerIdealista:
                 "area": self.string_process(place, "div.item-detail-char span:nth-of-type(2)"),
                 "description": self.string_process(place, "div.item-description.description p")
             }
-            self.send_log_system('DEGUB', place_json["url"])
+            self.send_log_system('DEBUG', place_json["url"])
 
             self.save_to_csv(place_json)
 

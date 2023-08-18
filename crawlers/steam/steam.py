@@ -63,7 +63,7 @@ class CrawlerSteam:
                     'final_price'
                 ])
         
-        print ('[ GAME ]', json_game['url'])
+        print ('[ DEBUG ]', json_game['url'])
         with open('games.csv', 'a+', encoding='utf-8', newline="") as csv_file:
             csvWriter = csv.writer(csv_file, delimiter=';')
             csvWriter.writerow([

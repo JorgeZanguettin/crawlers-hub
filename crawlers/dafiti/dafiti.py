@@ -2,7 +2,6 @@ import requests
 import os
 from bs4 import BeautifulSoup
 import multiprocessing
-from multiprocessing import Pool, Process
 
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 

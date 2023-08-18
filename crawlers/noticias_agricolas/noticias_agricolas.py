@@ -12,11 +12,11 @@ class WebCrawler():
 
 		url_inicial = 'https://www.noticiasagricolas.com.br/noticias/'
 
-		self.send_log_system('DEGUB', 'Start Crawler')
+		self.send_log_system('DEBUG', 'Start Crawler')
 		requisicao = requests.get(url_inicial)
 
 		self.parse_grid(requisicao)
-		self.send_log_system('DEGUB', 'Finish Crawler')
+		self.send_log_system('DEBUG', 'Finish Crawler')
 
 	def send_log_system(self, type_message, message):
 		print (f'[ {type_message} ] {message}')
@@ -28,7 +28,7 @@ class WebCrawler():
 				url_noticia = 'https://www.noticiasagricolas.com.br' + str(urls['href']).strip()
 				dict_noticia = self.parse_noticias_individuais(url_noticia)
 
-				self.send_log_system('DEGUB', 'Noticia Coletada - {}'.format(dict_noticia['titulo']))
+				self.send_log_system('DEBUG', 'Noticia Coletada - {}'.format(dict_noticia['titulo']))
 				self.set_in_file(dict_noticia)
 
 			find_next_page = obj_bs4.select_one('li.next a')

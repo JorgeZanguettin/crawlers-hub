@@ -1,16 +1,15 @@
-import csv
 import os
+import csv
 import re
 import requests
 from bs4 import BeautifulSoup
 
+URL_CRAWL = "https://casa.sapo.pt/alugar-apartamentos/lisboa/"
 
-URL_CRAWL = "https://www.imovirtual.com/arrendar/apartamento/lisboa/?nrAdsPerPage=72"
 
-
-class CrawlerImovirtual:
+class CrawlerSapo:
     def __init__(self):
-        page = 1
+        page = 25
         self.send_log_system('DEBUG', 'Start Crawler')
 
         while True:
@@ -21,10 +20,10 @@ class CrawlerImovirtual:
         self.send_log_system('DEBUG', 'Finish Crawler')
     
     def parse_place_list(self, page):
-        self.send_log_system('REQUEST', URL_CRAWL + f"&page={page}")
+        self.send_log_system('REQUEST', URL_CRAWL + f"?pn={page}")
 
         place_request = requests.get(
-            URL_CRAWL + f"&page={page}",
+            URL_CRAWL + f"?pn={page}",
             headers={
                 "accept": "application/json, text/javascript, */*; q=0.01",
                 "accept-language": "pt-BR,pt;q=0.9",
@@ -33,20 +32,17 @@ class CrawlerImovirtual:
         )
         soup = BeautifulSoup(place_request.content, "html.parser")
 
-        for place in soup.select("div.col-md-content.section-listing__row-content article"):
+        for place in soup.select("div.list-content-properties div.property"):
             place_json = {
-                "title": self.string_process(place, "div.offer-item-details h3 a span span.offer-item-title"),
-                "url": self.string_process(place, "div.offer-item-details h3 a", link=True),
-                "price": self.string_process(place, "ul.params li.offer-item-price"),
-                "typology": self.string_process(place, "ul.params li.offer-item-rooms.hidden-xs"),
-                "area": self.string_process(place, "ul.params li.hidden-xs.offer-item-area"),
-                "description": self.string_process(place, "div.offer-item-details p.text-nowrap ")
+                "title": self.string_process(place, "div.property-type"),
+                "url": self.string_process(place, "a.property-info", link=True),
+                "price": self.string_process(place, "div.property-price-value"),
+                "description": self.string_process(place, "div.property-features-text")
             }
             self.send_log_system('DEBUG', place_json["url"])
-
             self.save_to_csv(place_json)
 
-        if soup.select_one("li.pager-next a.disabled"):
+        if soup.select_one("span.disabled i.icon-forward"):
             return None
         return page + 1
 
@@ -57,10 +53,12 @@ class CrawlerImovirtual:
                 string_ = str(obj_soup.text).replace("\n", "").strip()
                 return re.sub(' +', ' ', string_)
             else:
-                return str(obj_soup["href"]).strip()
+                partial_url = str(obj_soup["href"]).strip()
+                if "https://" not in partial_url:
+                    return "https://casa.sapo.pt" + partial_url
+                return partial_url
         return ""
     
-
     def send_log_system(self, type_message, message):
         print (f'[ {type_message} ] {message}')
 
@@ -72,8 +70,6 @@ class CrawlerImovirtual:
                     "title",
                     "url",
                     "price",
-                    "typology",
-                    "area",
                     "description"
                 ])
         
@@ -83,9 +79,7 @@ class CrawlerImovirtual:
                 place["title"],
                 place["url"],
                 place["price"],
-                place["typology"],
-                place["area"],
                 place["description"]
             ])
 
-CrawlerImovirtual()
+CrawlerSapo()
