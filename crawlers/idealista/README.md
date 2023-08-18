@@ -1,6 +1,6 @@
 # **Idealista**
 
-## O que é Steam?
+## O que é Idealista?
 
 Tem como missão é fornecer informação imobiliária estruturada e organizada de forma homogénea e em tempo real, ao alcance de qualquer profissional do setor. Dispondo de um conjunto de ferramentas tecnológicas e analíticas para processar, padronizar e estruturar fontes de dados úteis e convertê-las em informação facilmente acessível.
 
